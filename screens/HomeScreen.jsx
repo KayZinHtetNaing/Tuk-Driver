@@ -26,7 +26,9 @@ import {
 import tw from 'twrnc';
 
 const Drawer = createDrawerNavigator();
-function HomeScreen() {
+function HomeScreen({route}) {
+  const {message} = route.params;
+  console.log(message);
   return ( 
     <Drawer.Navigator initialRouteName="Home"
     screenOptions={{
