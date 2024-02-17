@@ -14,7 +14,7 @@ export default function LoginScreen() {
   const [contact, setContact] = useState([]);
   const getContact = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/drivers");
+      const response = await axios.get("http://192.168.1.155:3000/drivers");
       console.log(response.data.data); // Log the fetched data
       setContact(response.data.data);
     } catch (error) {
@@ -29,9 +29,9 @@ export default function LoginScreen() {
   },[])
 
   const navigation = useNavigation();
-  const HomeScreen = () => {
-    navigation.navigate("home");
-  };
+  // const HomeScreen = () => {
+  //   navigation.navigate("Home");
+  // };
   
 
   const [fdata, setFdata] = useState({
@@ -45,21 +45,35 @@ export default function LoginScreen() {
 
   const [errorMessage , setErrorMessage] =useState(null);
   const sendtoBackend = () => {
-    if (fdata.phnumber === "" || fdata.password === "") {
+    if (fdata.phnumber === "" || fdata.password === "" || fdata.name === "") {
       setErrorMessage("All fields are required");
       return;
     } 
     
     let found = false;
     contact.forEach((contact) => {
-      if (contact.phoneNumber === fdata.phnumber && contact.password === fdata.password) {
+      console.log(contact);
+      if (contact.name === fdata.name&& contact.phoneNumber === fdata.phnumber && contact.password === fdata.password) {
         found = true;
       }
     });
   
     if (found) {
+      // Logic for successful login
+    //   const messageLines = ['Login Successful'];
+    //   Alert.alert(
+    //     'Login',
+    //     messageLines.join('\n'),
+    //     [
+    //       {
+    //         text: 'Ok',
+    //         onPress: () => HomeScreen(), // Call HomeScreen function
+    //       }
+    //     ]
+    //   );
+   
     console.log("Login Successful"); 
-    HomeScreen()
+    navigation.navigate("home",{message:contact});
     
   } 
 
@@ -67,6 +81,11 @@ export default function LoginScreen() {
       setErrorMessage("Invalid User name and password");
     }
   };
+  
+  
+  
+  
+
 
   return (
    
@@ -88,10 +107,22 @@ export default function LoginScreen() {
         errorMessage ? <Text style={tw`ml-20   text-red-600`} class>{errorMessage}</Text> : null
       }
         <View style={tw`form space-y-2`}>
+        <Text style={tw`text-gray-700 ml-4 mb-3`}>User Name</Text>
+
+<TextInput style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5`} 
+ placeholder="Enter Your Phone number"
+onChangeText={(text) => setFdata({...fdata, name:text}) }
+
+
+ />
+
+
+
             <Text style={tw`text-gray-700 ml-4 mb-3`}>Phone Number</Text>
 
             <TextInput style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5`} 
              placeholder="Enter Your Phone number"
+              keyboardType = 'numeric'
             onChangeText={(text) => setFdata({...fdata, phnumber:text}) }
 
 
@@ -107,7 +138,8 @@ export default function LoginScreen() {
             <TouchableOpacity style={tw`py-3 rounded-full bg-orange-400`} 
             onPress= {() => {
               sendtoBackend();
-            }} 
+            }}
+            
             >
               <Text style={tw`font-xl font-bold text-center text-white text-base`}>Login to Your Account</Text>
             </TouchableOpacity>
