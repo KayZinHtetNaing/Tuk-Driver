@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import StopSartbtn from "./StopSartbtn";
 
 const MapComponent = () => {
   const [location, setLocation] = useState(null);
@@ -40,6 +41,7 @@ const MapComponent = () => {
           />
         </MapView>
       )}
+      <StopSartbtn/>
     </View>
   );
 };
