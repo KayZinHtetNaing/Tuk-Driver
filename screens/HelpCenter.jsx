@@ -13,7 +13,7 @@ export default function HelpCenterScreen(){
     const navigation = useNavigation();
 
     const [canOpenTelephone , setcanOpenTelephone] = useState(false);
-    canOpenURL("tel:+959459496549").then((canOpen) => setcanOpenTelephone(canOpen));
+    canOpenURL("tel:+959952631311").then((canOpen) => setcanOpenTelephone(canOpen));
 
     const [canOpenMail , setcanOpenMail] = useState(false);
     canOpenURL("mailto:pyaepyae@gmail.com").then((canOpen) => setcanOpenMail(canOpen));
@@ -26,7 +26,7 @@ export default function HelpCenterScreen(){
             <View style={tw`flex-row p-5 items-center`}>
             <Feather name="phone-call" size={22} color="black" />
             <TouchableOpacity style={tw`font-semibold  ml-5`} 
-              onPress={() => openURL("tel:+959459496549")}><Text style={tw`text-blue-700 underline underline-offset-2 `} disabled={canOpenTelephone}>+959459496549</Text></TouchableOpacity>
+              onPress={() => openURL("tel:+959952631311")}><Text style={tw`text-blue-700 underline underline-offset-2 `} disabled={canOpenTelephone}>+959952631311</Text></TouchableOpacity>
             </View>
 
             <View style={tw`flex-row p-5 items-center`}>

@@ -44,11 +44,11 @@ export default function AppNavigation() {
             options={{ headerShown: false }}
             component={SettingScreen}
           />
-          <Stack.Screen
+         <Stack.Screen 
             name="about"
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
             component={AboutScreen}
-          />
+         />
           <Stack.Screen
             name="rateus"
             options={{ headerShown: false }}
