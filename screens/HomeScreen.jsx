@@ -28,7 +28,7 @@ import tw from 'twrnc';
 const Drawer = createDrawerNavigator();
 function HomeScreen({route}) {
   const {message} = route.params;
-  console.log(message);
+  // console.log(message);
   return ( 
     <Drawer.Navigator initialRouteName="Home"
     screenOptions={{
@@ -49,22 +49,25 @@ function HomeScreen({route}) {
   
     >
 
-    <Drawer.Screen
-      name="home"
-      component={Home}
-      options={{ drawerLabel: 'Home',
-      title: "Home",
+<Drawer.Screen
+        name="home"
+        component={Home}
+        initialParams={{ message: message }} // Pass the message prop to the Home component
+        options={{
+          drawerLabel: 'Home',
+          title: "Home",
           drawerIcon: () => (
             <Ionicons name="home" size={20} color="black" />
-          ),
-       }}
-    />
+          )
+        }}
+      />
 
 
 
     <Drawer.Screen
       name="Profile"
       component={ProfileScreen}
+      initialParams={{ message: message }}
       options={{ drawerLabel: 'Profile',
       title: "Profile",
           drawerIcon: () => (

@@ -14,12 +14,8 @@ export default function LoginScreen() {
   const [contact, setContact] = useState([]);
   const getContact = async () => {
     try {
-<<<<<<< HEAD
-      const response = await axios.get("http://192.168.100.39:3000/drivers");
-=======
-      const response = await axios.get("http://192.168.1.155:3000/drivers");
->>>>>>> 9cad4935e54c0a9871bdd7bd47b4f03da50cb786
-      console.log(response.data.data); // Log the fetched data
+      const response = await axios.get("http://192.168.1.106:3000/drivers");
+      // console.log(response.data.data); // Log the fetched data
       setContact(response.data.data);
     } catch (error) {
       console.error("Error fetching contact:", error);
@@ -49,46 +45,26 @@ export default function LoginScreen() {
 
   const [errorMessage , setErrorMessage] =useState(null);
   const sendtoBackend = () => {
-    if (fdata.phnumber === "" || fdata.password === "" || fdata.name === "") {
+    if (fdata.phnumber === "" || fdata.password === "") {
       setErrorMessage("All fields are required");
       return;
     } 
     
     let found = false;
     contact.forEach((contact) => {
-      console.log(contact);
-      if (contact.name === fdata.name&& contact.phoneNumber === fdata.phnumber && contact.password === fdata.password) {
+      if (contact.phoneNumber === fdata.phnumber && contact.password === fdata.password) {
         found = true;
+        // Assuming you want to retrieve user-specific data and navigate to the home screen on successful login
+        console.log("Login Successful"); 
+        navigation.navigate("home", { message: contact }); // Passing the user data to the home screen
       }
     });
   
-    if (found) {
-      // Logic for successful login
-    //   const messageLines = ['Login Successful'];
-    //   Alert.alert(
-    //     'Login',
-    //     messageLines.join('\n'),
-    //     [
-    //       {
-    //         text: 'Ok',
-    //         onPress: () => HomeScreen(), // Call HomeScreen function
-    //       }
-    //     ]
-    //   );
-   
-    console.log("Login Successful"); 
-<<<<<<< HEAD
-    navigation.navigate("home",{message:fdata});
-=======
-    navigation.navigate("home",{message:contact});
->>>>>>> 9cad4935e54c0a9871bdd7bd47b4f03da50cb786
-    
-  } 
-
-    else {
-      setErrorMessage("Invalid User name and password");
+    if (!found) {
+      setErrorMessage("Invalid phone number or password");
     }
   };
+  
   
   
   
@@ -115,14 +91,7 @@ export default function LoginScreen() {
         errorMessage ? <Text style={tw`ml-20   text-red-600`} class>{errorMessage}</Text> : null
       }
         <View style={tw`form space-y-2`}>
-        <Text style={tw`text-gray-700 ml-4 mb-3`}>User Name</Text>
-
-<TextInput style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5`} 
- placeholder="Enter Your Phone number"
-onChangeText={(text) => setFdata({...fdata, name:text}) }
-
-
- />
+        
 
 
 
