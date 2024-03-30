@@ -6,12 +6,18 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import tw from "twrnc";
 import CheckBox from "react-native-check-box";
 import axios from "axios";
+import {  useRef } from "react";
+import themeContext from "./theme/themeContext";
+import theme from "./theme/theme";
+
 
 export default function RateusScreen() {
+  const theme=useContext(themeContext)
+  const [darkMode,setDarkMode]=useState(false)
   const [name, setName] = useState("");
   const [feedback, setFeedback] = useState("");
   const [suggestion, setSuggestion] = useState("");
@@ -31,7 +37,7 @@ export default function RateusScreen() {
   const createFeedback = async (feedbacks) => {
     try {
       const response = await axios.post(
-        "http://192.168.100.39:3000/feedback",
+        "http://192.168.43.239:3000/feedback",
         feedbacks
       );
       console.log("Feedback response:", response.data);
@@ -77,56 +83,56 @@ export default function RateusScreen() {
         searchengine: false,
         other: false,
       });
-      Alert.alert("Thanks for your feedback");
+      Alert.alert("အကြံပြုမှုအတွက်ကျေးဇူးတင်ပါသည်။");
     }
   };
 
   return (
-    <ScrollView>
-      <View style={tw`flex-1 bg-white min-h-full`}>
-        <View style={tw`flex-1 justify-center items-center mt-5`}>
+    <ScrollView style={{backgroundColor:theme.backgroundColor}}>
+    <View>
+      <View style={[tw`flex-1 bg-white min-h-full`,{backgroundColor:theme.backgroundColor}]}>
+        <View style={[tw`flex-1 justify-center items-center mt-5`]}>
           <Text
-            style={tw`text-orange-500 font-bold text-3xl tracking-wide leading-normal`}
+            style={[tw`text-orange-500 font-bold text-2xl tracking-wide leading-normal`,{color:theme.color}]}
           >
-            App Feedback
+            App အတွက်အကြုံပြုစာ
           </Text>
         </View>
-        <View style={tw`flex-1 px-8 pt-8 bg-white rounded-t-10`}>
+        <View style={[tw`flex-1 px-8 pt-8 bg-white rounded-t-10`,{backgroundColor:theme.backgroundColor}]}>
           {errorMessage ? (
             <Text style={tw`ml-20 animate-fade-right  text-red-600`} class>
               {errorMessage}
             </Text>
           ) : null}
-          <View style={tw`form space-y-2`}>
-            <Text style={tw`text-gray-700 ml-4 mb-3`}>Name</Text>
+          <View>
+            <Text style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}>အမည်</Text>
             <TextInput
-              style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5`}
+              style={[tw`p-4 bg-white text-gray-700 rounded-2xl mb-5`,{color:theme.color}]}
               onChangeText={(text) => setName(text)}
               value={name}
-              placeholder="Enter your name"
+              placeholder="အမည်ရိုက်ထည့်ပါ"
             />
-            <Text style={tw`text-gray-700 ml-4 mb-3`}>Feedback</Text>
+            <Text style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}>အကြံပြုစာ</Text>
             <TextInput
-              style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5 min-h-24`}
+              style={[tw`p-4 bg-white text-gray-700 rounded-2xl mb-5 min-h-24`,{color:theme.color}]}
               onChangeText={(text) => setFeedback(text)}
               value={feedback}
-              placeholder="Please let us know Your Feedback "
+              placeholder="သင့်ရဲ့အကြံပြုစာရေးထည့်ပါ"
             />
-            <Text style={tw`text-gray-700 ml-4 mb-3`}>
-              Suggestion for improvement
+            <Text style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}>
+              တိုးတက်မှုအတွက် အကြံပြုချက်
             </Text>
             <TextInput
-              style={tw`p-4 bg-gray-100 text-gray-700 rounded-2xl mb-5 min-h-24`}
+              style={[tw`p-4 bg-white text-gray-700 rounded-2xl mb-5 min-h-24`,{color:theme.color}]}
               onChangeText={(text) => setSuggestion(text)}
               value={suggestion}
-              placeholder="Please give me some suggestions"
+              placeholder="ကျေးဇူးပြု၍ကျွန်ုပ်ကိုအကြံပြုချက်အချို့ပေးပါ"
             />
-            <Text style={tw`text-gray-700 ml-4 mb-3`}>
-              How did you hear this App
+            <Text style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}>
+              ဒီ App ကို ဘယ်လိုသိခဲ့တာလဲ။
             </Text>
             <CheckBox
-              style={tw`text-gray-700 ml-4 mb-3`}
-
+              style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}
               isChecked={isChecked.socialmedia}
               onClick={() => {
                 setIsChecked({
@@ -135,9 +141,9 @@ export default function RateusScreen() {
                 });
                 setCheckbox1(!checkbox1); // Update checkbox state
               }}
-              rightText="Social Media"
+              rightText="လူမှုမီဒီယာများမှတဆင့်"
               rightTextStyle={{
-                color: isChecked.socialmedia ? "green" : "black",
+                color: isChecked.socialmedia ? "green" : "red",
               }}
               checkedCheckBoxColor="green"
               uncheckedCheckBoxColor="red"
@@ -146,21 +152,21 @@ export default function RateusScreen() {
             {/* Repeat similar changes for the other checkbox components */}
 
             <CheckBox
-              style={tw`text-gray-700 ml-4 mb-3`}
+              style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}
               isChecked={isChecked.friends}
               onClick={() => {
                 setIsChecked({ ...isChecked, friends: !isChecked.friends });
                 setCheckbox2(!checkbox2);
               }}
-              rightText="Friends"
+              rightText="သူငယ်ချင်းများမှတဆင့်"
               //  value={checkbox2} onValueChange={setCheckbox2}
-              rightTextStyle={{ color: isChecked.friends ? "green" : "black" }}
+              rightTextStyle={{ color: isChecked.friends ? "green" : "red" }}
               checkedCheckBoxColor="green"
               uncheckedCheckBoxColor="red"
             />
 
             <CheckBox
-              style={tw`text-gray-700 ml-4 mb-3`}
+              style={[tw`text-gray-700 ml-4 mb-3`,{color:theme.color}]}
               isChecked={isChecked.searchengine}
               onClick={() => {
                 setIsChecked({
@@ -169,30 +175,30 @@ export default function RateusScreen() {
                 });
                 setCheckbox3(!checkbox3);
               }}
-              rightText="Search Engine(e.g Google)"
+              rightText="ရှာဖွေမှုများမှတဆင့်(ဥပမာ-Google)"
               //  value={checkbox3} onValueChange={setCheckbox3}
               rightTextStyle={{
-                color: isChecked.searchengine ? "green" : "black",
+                color: isChecked.searchengine ? "green" : "red",
               }}
               checkedCheckBoxColor="green"
               uncheckedCheckBoxColor="red"
             />
 
             <CheckBox
-              style={tw`text-gray-700 ml-4 mb-3`}
+              style={[tw`text-gray-700 ml-4 mb-3`]}
               isChecked={isChecked.other}
               onClick={() => {
                 setIsChecked({ ...isChecked, other: !isChecked.other });
                 setCheckbox4(!checkbox4);
               }}
-              rightText="Other"
+              rightText="အခြားအရာများမှတဆင့်..."
               //  value={checkbox4} onValueChange={setCheckbox4}
-              rightTextStyle={{ color: isChecked.other ? "green" : "black" }}
+              rightTextStyle={{ color: isChecked.other ? "green" : "red" }}
               checkedCheckBoxColor="green"
               uncheckedCheckBoxColor="red"
             />
 
-            <View >
+            <View>
               <TouchableOpacity
                 style={tw`py-3 rounded-full bg-orange-400`}
                 onPress={() => {
@@ -200,15 +206,15 @@ export default function RateusScreen() {
                 }}
               >
                 <Text
-                  style={tw`font-xl font-bold text-center text-white text-base`}
+                  style={[tw`text-xl font-bold text-center text-white text-base`,{color:theme.color}]}
                 >
-                  Submit
+                  ပေးပို့မည်
                 </Text>
               </TouchableOpacity>
-             
             </View>
           </View>
         </View>
+      </View>
       </View>
     </ScrollView>
   );

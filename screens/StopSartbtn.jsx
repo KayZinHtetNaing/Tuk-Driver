@@ -1,26 +1,28 @@
+
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableWithoutFeedback,
   Dimensions,
+  Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 export const screenWidth = Dimensions.get('window').width;
 let componentWidth = screenWidth;
 
-const StopSartbtn = ({driverLocation,userDatas}) => {
+const StopSartbtn = ({driverLocation,userDatas,onMessage}) => {
 
+  // const[messageAlert,setMessage] = useState("လူကြီးမင်းသည်ခရီးစဥ်ရှာဖွေခြင်းကိုရပ်နားထားပါသည်");
   const [driverLocationId, setDriverLocationId] = useState(null);
-
 
   const createDriverdata = async (driverProfile) => {
     try {
-      const { data } = await axios.post("http://192.168.1.106:3000/driverLocation", driverProfile);
-      console.log("Data posted successfully:", data);
+      const { data } = await axios.post("http://192.168.43.239:3000/driverLocation", driverProfile);
+      // console.log("Data posted successfully:", data);
       const newDriverLocationId =data._id; // Assuming "_id" is the field for the unique identifier
       setDriverLocationId(newDriverLocationId); // Store the ID in your component state
     
@@ -34,9 +36,9 @@ const StopSartbtn = ({driverLocation,userDatas}) => {
 
   const deleteDriverData = async () => {
     try {
-      const response = await axios.delete(`http://192.168.1.106:3000/driverLocation/${driverLocationId}`);
+      const response = await axios.delete(`http://192.168.43.239:3000/driverLocation/${driverLocationId}`);
       console.log('Data deleted successfully');
-    } catch (error) {
+    } catch (error) {s
       console.error('Error deleting data:', error);
     }
   };
@@ -67,13 +69,17 @@ const StopSartbtn = ({driverLocation,userDatas}) => {
       },
     })
 
-    const {name,phoneNumber,password,licenseNo,NRC,address} = userDatas;
+    const {name,phoneNumber,password,licenseNo,NRC,address,profile} = userDatas;
     const latitude = driverLocation.latitude;
     const longitude = driverLocation.longitude;
-    const driverProfile={name,phoneNumber,latitude,longitude,licenseNo}
-    console.log(driverProfile);
+    
+    const driverProfile={name,phoneNumber,latitude,longitude,licenseNo,profile}
+    // console.log(driverProfile);
     createDriverdata(driverProfile);
     console.log("I am start");
+    onMessage("လူကြီးမင်းသည်ခရီးသည်ရှာဖွေခြင်းကိုလုပ်ဆောင်နေပါသည်");
+
+    Alert.alert("ခရီးသည်ရှာဖွေမှာ ေနပါသည်");
   // console.log(driverLocation);
 
 };
@@ -91,11 +97,13 @@ const StopSartbtn = ({driverLocation,userDatas}) => {
         },
         })
     console.log("I am stop");
+    onMessage("လူကြီးမင်းသည်ခရီးစဥ်ရှာဖွေခြင်းကိုရပ်နားထားပါသည်");
+    Alert.alert("ခရီးသည်ရှာေဖွခြင်းကိုရပ်မည်")
 
     deleteDriverData();
 
     };
-
+  
   return (
     <TouchableWithoutFeedback onPress={updateIndex}>
       <View
@@ -115,8 +123,8 @@ const StopSartbtn = ({driverLocation,userDatas}) => {
             justifyContent: 'space-between',
           }}
         >
-          <Text style={[btnstyles.textOption]}>Stop</Text>
-          <Text style={[btnstyles.textOption]}>Start</Text>
+          <Text style={[btnstyles.textOption]}>ခရီးစဉ်ရှိသည်</Text>
+          <Text style={[btnstyles.textOption]}>ခရီးစဉ်ရှာဖွေမည်</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
